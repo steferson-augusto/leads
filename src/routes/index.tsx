@@ -5,10 +5,16 @@ import { useAuth } from '../contexts/auth'
 import AppRoutes from './app.routes'
 import AuthRoutes from './auth.routes'
 
-const Routes: React.FC = () => {
+interface Props {
+  toogleTheme: () => void
+}
+
+const Routes: React.FC<Props> = ({ toogleTheme }) => {
   const { signed } = useAuth()
   return (
-    <BrowserRouter>{signed ? <AppRoutes /> : <AuthRoutes />}</BrowserRouter>
+    <BrowserRouter>
+      {signed ? <AppRoutes toogleTheme={toogleTheme} /> : <AuthRoutes />}
+    </BrowserRouter>
   )
 }
 

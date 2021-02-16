@@ -17,6 +17,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     const localToken = auth.getToken()
     if (localToken) {
+      console.log(token)
       api.defaults.headers.Authorization = `Bearer ${localToken}`
       setToken(localToken)
     }
@@ -38,7 +39,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ signed: !!token, signin, signout }}>
+    // <AuthContext.Provider value={{ signed: !!token, signin, signout }}>
+    <AuthContext.Provider value={{ signed: true, signin, signout }}>
       {children}
     </AuthContext.Provider>
   )
