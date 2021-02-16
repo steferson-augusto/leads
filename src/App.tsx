@@ -1,10 +1,17 @@
 import React from 'react'
 
+import Routes from './routes'
+import GlobalStyles from './styles/global'
+import { AuthProvider } from './contexts/auth'
+
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
+    <>
+      <GlobalStyles />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </>
   )
 }
 
