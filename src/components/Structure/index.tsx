@@ -54,11 +54,11 @@ const Structure: React.FC<StructureProps> = ({ children, toogleTheme }) => {
       <Wrapper>
         <Check type="checkbox" id="check" />
         <Sidebar className="sidebar">
-          <Link to="/" className="link">
+          <Link to="/leads" className="link">
             <i className="fas fa-chart-bar" />
             <span>Leads</span>
           </Link>
-          <Link to="/" className="link">
+          <Link to="/leads" className="link">
             <i className="fas fa-users" />
             <span>Pessoas</span>
           </Link>
