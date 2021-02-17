@@ -24,6 +24,7 @@ const dark = {
     },
     header: {
       background: '#1F1F1F',
+      hover: lighten(0.08, '#1F1F1F'),
       text: '#E1E1E6'
     },
     button: {

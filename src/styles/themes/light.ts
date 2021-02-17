@@ -24,6 +24,7 @@ const light = {
     },
     header: {
       background: primary,
+      hover: shade(0.3, primary),
       text: '#E1E1E6'
     },
     button: {

@@ -13,6 +13,7 @@ export default createGlobalStyle`
     --surface-bg: ${props => props.theme.colors.surface.background};
     --surface-hover: ${props => props.theme.colors.surface.hover};
     --header-bg: ${props => props.theme.colors.header.background};
+    --header-hover: ${props => props.theme.colors.header.hover};
     --header-text: ${props => props.theme.colors.header.text};
     --button-primary-text: ${props => props.theme.colors.button.primary.text};
     --button-primary-hover: ${props => props.theme.colors.button.primary.hover};
@@ -29,14 +30,10 @@ export default createGlobalStyle`
     outline: 0;
   }
 
-  html {
-    font-size: 62.5%;
-  }
-
   body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font: 400 1.6rem Roboto, sans-serif;
+    font: 400 16px Roboto, sans-serif;
   }
 
   .elevation-1 {
@@ -58,5 +55,9 @@ export default createGlobalStyle`
 
   .elevation-5 {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  }
+
+  .min-width-300 {
+    min-width: 300px;
   }
 `
