@@ -5,6 +5,7 @@ export const Content = styled.div`
   display: flex;
   flex: 1;
   transition: 0.5s;
+  overflow-y: auto;
 `
 
 export const Container = styled.div`
@@ -151,6 +152,10 @@ export const Sidebar = styled.div`
       padding-right: 10px;
     }
 
+    &:hover {
+      background: var(--sidebar-hover);
+    }
+
     @media screen and (max-width: 600px) {
       min-width: 60px;
       height: 100%;
@@ -160,6 +165,10 @@ export const Sidebar = styled.div`
       font-size: 20px;
       color: var(--header-text);
 
+      &:hover {
+        background: var(--header-hover);
+      }
+
       span {
         display: none;
       }
@@ -167,10 +176,6 @@ export const Sidebar = styled.div`
       i {
         padding: 0;
       }
-    }
-
-    &:hover {
-      background: var(--sidebar-hover);
     }
   }
 `
