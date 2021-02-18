@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import MaterialTable, { Column } from 'material-table'
 import produce, { setAutoFreeze } from 'immer'
+import { mutate as mutateGlobal } from 'swr'
 
 import { useSwr } from '../../hooks/useSwr'
 import { Lead } from '../../models/Lead'
@@ -30,7 +31,6 @@ const Leads: React.FC = () => {
   const add = useCallback(async (newData: Lead) => {
     setRefreshing(true)
     try {
-      console.log(newData)
       newData.accountId = '4b263def-0a40-11eb-98f3-00ff654bd37a'
       const response = await api.post<Lead>('/Leads', newData)
       const leads = produce(data, draft => {
@@ -52,6 +52,7 @@ const Leads: React.FC = () => {
         draft[draft.findIndex(lead => lead.leadId === newData.leadId)] = newData
       })
       mutate(leads, true)
+      mutateGlobal(`/Leads/${newData.leadId}`, newData, true)
       setRefreshing(false)
     } catch (error) {
       setRefreshing(false)
@@ -59,17 +60,16 @@ const Leads: React.FC = () => {
     }
   }, [])
 
-  if (loading) return <p>Carregando...</p>
-
   return (
     <Container>
       <MaterialTable
         title="Leads"
         columns={columns}
         data={data as Lead[]}
-        isLoading={refreshing}
+        isLoading={refreshing || loading}
         localization={localization}
         options={{ actionsColumnIndex: -1 }}
+        style={{ width: '100%' }}
         editable={{
           onRowAdd: add,
           onRowUpdate: update
