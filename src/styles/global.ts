@@ -11,6 +11,7 @@ export default createGlobalStyle`
     --sidebar-hover: ${props => props.theme.colors.sidebar.hover};
     --sidebar-active: ${props => props.theme.colors.sidebar.active};
     --surface-bg: ${props => props.theme.colors.surface.background};
+    --surface-paper: ${props => props.theme.colors.surface.paper};
     --surface-hover: ${props => props.theme.colors.surface.hover};
     --header-bg: ${props => props.theme.colors.header.background};
     --header-hover: ${props => props.theme.colors.header.hover};
