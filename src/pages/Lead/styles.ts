@@ -17,3 +17,11 @@ export const Body = styled.div`
   flex-direction: column;
   align-items: center;
 `
+
+export const LoadContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-top: 52px;
+`
