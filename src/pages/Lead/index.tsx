@@ -1,6 +1,9 @@
+/* eslint-disable curly */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FormEvent } from 'react'
 import { useParams } from 'react-router-dom'
+import produce from 'immer'
+import { mutate as mutateGlobal } from 'swr'
 import {
   Button,
   TextField,
@@ -11,62 +14,60 @@ import {
   CardContent,
   Paper,
   Tabs,
-  Tab,
-  Box
+  Tab
 } from '@material-ui/core'
 
 import { useSwr } from '../../hooks/useSwr'
 import { Lead as LeadInterface } from '../../models/Lead'
-import { Container, Form, Body } from './styles'
+import { Container, Form, Body, LoadContainer } from './styles'
 import Metas from '../../components/Metas'
+import TabPanel from '../../components/TapPanel'
+import api from '../../services/api'
+import { Skeleton } from '@material-ui/lab'
 
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: any
-  value: any
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      aria-labelledby={`tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </div>
-  )
-}
 interface ParamsProps {
   id: string
 }
 
 const Lead: React.FC = () => {
   const { id } = useParams<ParamsProps>()
-  const { data, loading } = useSwr<LeadInterface>(`/Leads/${id}`)
+  const { data, loading, mutate } = useSwr<LeadInterface>(`/Leads/${id}`)
   const [value, setValue] = React.useState(0)
 
   const handleChange = (_event: any, newValue: number) => {
     setValue(newValue)
   }
 
-  if (loading) return <p>Carregando...</p>
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const form = e.currentTarget as any
-    const values = {
-      leadId: id,
-      name: form.name.value,
-      status: form.status.value,
-      doNotCall: form.doNotCall.checked
+    try {
+      const form = e.currentTarget as any
+      const values = {
+        leadId: id,
+        name: form.name.value,
+        status: form.status.value,
+        doNotCall: form.doNotCall.checked
+      }
+      await api.put<LeadInterface>(`/Leads/${id}`, values)
+      const lead = produce(data, (draft: LeadInterface) => {
+        draft.name = values.name
+        draft.status = values.status
+        draft.doNotCall = values.doNotCall
+      })
+      mutate(lead, true)
+      mutateGlobal('/Leads', [], true)
+    } catch (error) {
+      console.error(error)
     }
-    console.log(values)
   }
+
+  if (loading)
+    return (
+      <LoadContainer>
+        <Skeleton variant="text" width={240} height={40} />
+        <Skeleton variant="rect" width="100%" height={228} />
+      </LoadContainer>
+    )
 
   return (
     <Body>
@@ -110,7 +111,7 @@ const Lead: React.FC = () => {
                       <Checkbox
                         color="primary"
                         name="doNotCall"
-                        value={data?.doNotCall}
+                        defaultChecked={data?.doNotCall}
                       />
                     }
                     label="Não ligar"
