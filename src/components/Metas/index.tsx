@@ -83,8 +83,6 @@ const Metas: React.FC<Props> = ({ leadId }) => {
     [refreshing]
   )
 
-  if (loading) return <p>Loading...</p>
-
   return (
     <MaterialTable
       title="Metas"
@@ -92,7 +90,7 @@ const Metas: React.FC<Props> = ({ leadId }) => {
       data={data as LeadMeta[]}
       localization={localization}
       options={{ actionsColumnIndex: -1 }}
-      isLoading={refreshing}
+      isLoading={refreshing || loading}
       editable={{
         onRowAdd: add,
         onRowUpdate: update,
