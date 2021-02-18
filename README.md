@@ -1,46 +1,109 @@
-# Getting Started with Create React App
+# Teste Prático - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esse projeto foi construído com React 17.
 
-## Available Scripts
+<p align="center">
+  <img src="./github/leads.png" alt="leads" width="420" >
+</p>
 
-In the project directory, you can run:
+<h4 align="center">
+  <a href="#started" >
+    Instalação
+  </a>
+  |
+  <a href="#cache" >
+    Cache de Requisições
+  </a>
+  |
+  <a href="#usability" >
+    Usabilidade
+  </a>
+  |
+  <a href="#utils" >
+    Utilidades
+  </a>
+  |
+  <a href="#license" >
+    Licença
+  </a>
+</h4>
 
-### `yarn start`
+<h2 name="started">▶ Instalação</h2>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Clone ou baixe o projeto do Github
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+git clone https://github.com/steferson-augusto/leads
+```
 
-### `yarn test`
+Abra o diretório do projeto e execute `npm install` ou `yarn`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Na raiz do projeto, execute `npm run start` ou `yarn start`
 
-### `yarn build`
+Após todos os passos, a aplicação estará pronta para uso através de `http://localhost:3000/`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Todas as requisições enviam por padrão o token jwt `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBdXRob3JpemF0aW9uSWQiOiJjMzQ1YjY1Ny0wYjBjLTExZWItOThmMy0wMGZmNjU0YmQzN2EiLCJVc2VySWQiOiIxIiwicm9sZSI6IlN5c3RlbU93bmVyIiwibmJmIjoxNjAyMzQzODY3LCJleHAiOjE2MzM4Nzk4NjcsImlhdCI6MTYwMjM0Mzg2N30.cZV7gxe0iOtHX2f8URK8aOEvTbdybuAm_Tlu_LueB5U`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Outras requisições necessitam de accountId, está sendo usado `4b263def-0a40-11eb-98f3-00ff654bd37a` inserido manualmente
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br/>
+<h2 name="cache">🗃 Cache de Requisições</h2>
 
-### `yarn eject`
+A aplicação usa a biblioteca SRW para cache de requisições, trazendo uma usabilidade interessante.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Observe que ao realizar a requisição a uma rota pela primeira vez, há um pequeno intervalo de loading. Ao realizar a mesma requisição, é usado um cache da resposta anterior enquanto o SWR atualiza os dados "por baixo dos panos".
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<p align="center">
+  <img src="./github/swr-cache.gif" alt="iniciado" width="540" >
+</p>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Outra coisa interessante da biblioteca é a estratégia de revalidar as informações quando o usuário dispara o evento onFocus da window.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<p align="center">
+  <img src="./github/swr-revalidate.gif" alt="iniciado" width="540" >
+</p>
 
-## Learn More
+<br/>
+<h2 name="usability">📱 Usabilidade</h2>
+Foram usados alguns componentes que eu já tinha e eles já possuíam algumas funcionalidades como responsividade ou alternar entre tema light e dark.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<p align="center">
+  <img src="./github/usability.gif" alt="iniciado" width="540" >
+</p>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
+<h2 name="utils">🔧 Utilidades</h2>
+
+<ul>
+  <li>
+    <a href="https://pt-br.reactjs.org/docs/create-a-new-react-app.html" target="_blank">React</a>
+  </li>
+
+  <li>
+    <a href="https://swr.vercel.app/" target="_blank">SWR</a>
+  </li>
+
+  <li>
+    <a href="https://material-ui.com/getting-started/installation/" target="_blank">Material UI</a>
+  </li>
+
+  <li>
+    <a href="https://styled-components.com/docs" target="_blank">Styled Components</a>
+  </li>
+
+  <li>
+    <a href="https://material-table.com/#/docs/get-started" target="_blank">Material Table</a>
+  </li>
+
+  <li>
+    <a href="https://immerjs.github.io/immer/docs/introduction" target="_blank">Immer</a>
+  </li>
+</ul>
+
+<br/>
+<h2 name="license">📝 Licença</h2>
+<p>Este projeto está sob uma licença MIT. Veja mais informações em <a href="https://github.com/steferson-augusto/pjc_teste_pratico_frontend/blob/master/LICENSE" target="_blank">LICENSE</a>.</p>
+
+---
+
+<p>Criado por <a href="https://www.linkedin.com/in/st%C3%A9ferson-augusto-4b0b9b124/" target="_blank">Stéferson Augusto</a></p>
