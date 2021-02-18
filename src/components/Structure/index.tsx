@@ -58,7 +58,7 @@ const Structure: React.FC<StructureProps> = ({ children, toogleTheme }) => {
             <i className="fas fa-chart-bar" />
             <span>Leads</span>
           </Link>
-          <Link to="/leads" className="link">
+          <Link to="/people" className="link">
             <i className="fas fa-users" />
             <span>Pessoas</span>
           </Link>
