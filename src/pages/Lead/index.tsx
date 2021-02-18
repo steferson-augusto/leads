@@ -83,7 +83,6 @@ const Lead: React.FC = () => {
         >
           <Tab label="Lead" />
           <Tab label="Metas" />
-          <Tab label="Item Three" />
         </Tabs>
       </Paper>
       <Container>
