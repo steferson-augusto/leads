@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Structure from '../components/Structure'
 import Lead from '../pages/Lead'
 import Leads from '../pages/Leads'
+import NotFound from '../pages/NotFound'
 import People from '../pages/People'
 
 interface Props {
@@ -17,8 +18,7 @@ const AppRoutes: React.FC<Props> = ({ toogleTheme }) => (
       <Route exact path="/leads/:id" component={Lead} />
       <Route path="/leads" component={Leads} />
       <Route path="/people" component={People} />
-      {/* <Route exact path="/furniture/:id" component={Furniture} /> */}
-      {/* <Route path="*" component={NotFound} /> */}
+      <Route path="*" component={NotFound} />
     </Switch>
   </Structure>
 )
