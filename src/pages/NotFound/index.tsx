@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from '@material-ui/icons/SentimentVeryDissatisfiedOutlined'
+import Icon from '@material-ui/icons/SentimentDissatisfiedOutlined'
 
 import { Container } from './styles'
 
