@@ -1,85 +1,78 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import MaterialTable, { Column } from 'material-table'
+import produce, { setAutoFreeze } from 'immer'
 
 import { useSwr } from '../../hooks/useSwr'
 import { Lead } from '../../models/Lead'
 import localization from '../../utils/tableLocalization'
+import { Container } from './styles'
+import api from '../../services/api'
 
 const Leads: React.FC = () => {
+  setAutoFreeze(false)
   const history = useHistory()
-  const { data, loading } = useSwr('/Leads')
+  const { data, loading, mutate } = useSwr<Lead[]>('/Leads')
+  const [refreshing, setRefreshing] = useState(false)
   const columns: Array<Column<Lead>> = [
     { title: 'Nome', field: 'name' },
-    { title: 'Campanha', field: 'campaign' },
-    { title: 'Fonte', field: 'source' },
+    { title: 'Campanha', field: 'campaign', editable: 'onAdd' },
+    { title: 'Fonte', field: 'source', editable: 'onAdd' },
     { title: 'Status', field: 'status' },
     {
       title: 'Não ligar',
       field: 'doNotCall',
-      lookup: { 1: 'Sim', 0: 'Não' },
+      type: 'boolean',
       render: ({ doNotCall }) => (doNotCall ? 'Sim' : 'Não')
     }
   ]
 
+  const add = useCallback(async (newData: Lead) => {
+    setRefreshing(true)
+    try {
+      console.log(newData)
+      newData.accountId = '4b263def-0a40-11eb-98f3-00ff654bd37a'
+      const response = await api.post<Lead>('/Leads', newData)
+      const leads = produce(data, draft => {
+        draft?.push(response.data)
+      })
+      mutate(leads, true)
+      setRefreshing(false)
+    } catch (error) {
+      setRefreshing(false)
+      console.error(error?.data)
+    }
+  }, [])
+
+  const update = useCallback(async (newData: Lead) => {
+    setRefreshing(true)
+    try {
+      await api.put<Lead>(`/Leads/${newData.leadId}`, newData)
+      const leads = produce(data as Lead[], draft => {
+        draft[draft.findIndex(lead => lead.leadId === newData.leadId)] = newData
+      })
+      mutate(leads, true)
+      setRefreshing(false)
+    } catch (error) {
+      setRefreshing(false)
+      console.error(error)
+    }
+  }, [])
+
   if (loading) return <p>Carregando...</p>
 
   return (
-    <div>
-      <h1>Leads</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <Container>
       <MaterialTable
         title="Leads"
         columns={columns}
-        data={data}
+        data={data as Lead[]}
+        isLoading={refreshing}
         localization={localization}
         options={{ actionsColumnIndex: -1 }}
         editable={{
-          onRowAdd: newData =>
-            new Promise(resolve => {
-              // setTimeout(() => {
-              //   resolve(null)
-              //   setState(prevState => {
-              //     const data = [...prevState.data]
-              //     data.push(newData)
-              //     return { ...prevState, data }
-              //   })
-              // }, 600)
-              resolve(null)
-              console.log('adicionar')
-              console.log(newData)
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise(resolve => {
-              // setTimeout(() => {
-              //   resolve(null)
-              //   if (oldData) {
-              //     setState(prevState => {
-              //       const data = [...prevState.data]
-              //       data[data.indexOf(oldData)] = newData
-              //       return { ...prevState, data }
-              //     })
-              //   }
-              // }, 600)
-              resolve(null)
-              console.log('editar')
-              console.log(newData)
-              console.log(oldData)
-            }),
-          onRowDelete: oldData =>
-            new Promise(resolve => {
-              // setTimeout(() => {
-              //   resolve(null)
-              //   setState(prevState => {
-              //     const data = [...prevState.data]
-              //     data.splice(data.indexOf(oldData), 1)
-              //     return { ...prevState, data }
-              //   })
-              // }, 600)
-              resolve(null)
-              console.log('deletar')
-              console.log(oldData)
-            })
+          onRowAdd: add,
+          onRowUpdate: update
         }}
         actions={[
           {
@@ -92,7 +85,7 @@ const Leads: React.FC = () => {
           }
         ]}
       />
-    </div>
+    </Container>
   )
 }
 
