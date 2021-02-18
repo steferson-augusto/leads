@@ -1,3 +1,4 @@
+import { ThemeOptions } from '@material-ui/core/styles'
 import { shade } from 'polished'
 
 const primary = '#5e35b1'
@@ -20,6 +21,7 @@ const light = {
     },
     surface: {
       background: '#D5D5D5',
+      paper: '#f5f5f5',
       hover: '#C5C5C5'
     },
     header: {
@@ -36,6 +38,29 @@ const light = {
         text: '#f5f5f5',
         hover: shade(0.3, secondary)
       }
+    }
+  }
+}
+
+export const muiLight: ThemeOptions = {
+  palette: {
+    type: 'light',
+    background: {
+      default: '#f5f5f5',
+      paper: '#f5f5f5'
+    },
+    text: {
+      primary: '#333',
+      secondary: '#333'
+    },
+    primary: {
+      main: primary
+    },
+    secondary: {
+      main: secondary
+    },
+    error: {
+      main: '#b00020'
     }
   }
 }

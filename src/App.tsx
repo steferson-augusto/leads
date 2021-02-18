@@ -1,20 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
+import {
+  ThemeProvider as MUIThemeProvider,
+  createMuiTheme
+} from '@material-ui/core/styles'
 
 import Routes from './routes'
 import { AuthProvider } from './contexts/auth'
 import GlobalStyles from './styles/global'
-import light from './styles/themes/light'
-import dark from './styles/themes/dark'
+import light, { muiLight } from './styles/themes/light'
+import dark, { muiDark } from './styles/themes/dark'
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState(light)
+  const [muiTheme, setMuiTheme] = useState(createMuiTheme(muiLight))
 
   useEffect(() => {
     const storageValue = localStorage.getItem('@Paises:theme')
 
     if (storageValue) {
-      setTheme(JSON.parse(storageValue) === 'light' ? light : dark)
+      const saved = JSON.parse(storageValue)
+      setTheme(saved === 'light' ? light : dark)
+      setMuiTheme(
+        saved === 'light' ? createMuiTheme(muiLight) : createMuiTheme(muiDark)
+      )
     }
   }, [])
 
@@ -23,16 +32,22 @@ const App: React.FC = () => {
   }, [theme])
 
   const toogleTheme = useCallback(() => {
-    setTheme(theme.title === 'light' ? dark : light)
+    const title = theme.title
+    setMuiTheme(
+      title === 'light' ? createMuiTheme(muiDark) : createMuiTheme(muiLight)
+    )
+    setTheme(title === 'light' ? dark : light)
   }, [theme])
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <AuthProvider>
-        <Routes toogleTheme={toogleTheme} />
-      </AuthProvider>
-    </ThemeProvider>
+    <MUIThemeProvider theme={muiTheme}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <AuthProvider>
+          <Routes toogleTheme={toogleTheme} />
+        </AuthProvider>
+      </ThemeProvider>
+    </MUIThemeProvider>
   )
 }
 
