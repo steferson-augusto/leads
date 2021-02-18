@@ -6,6 +6,7 @@ import { LeadMeta } from '../../models/LeadMeta'
 import localization from '../../utils/tableLocalization'
 import api from '../../services/api'
 import { useSwr } from '../../hooks/useSwr'
+import Error from '../Error'
 
 interface Props {
   leadId: string
@@ -14,7 +15,7 @@ interface Props {
 const Metas: React.FC<Props> = ({ leadId }) => {
   setAutoFreeze(false)
   const [refreshing, setRefreshing] = useState(false)
-  const { data, loading, mutate } = useSwr<LeadMeta[]>(
+  const { data, loading, error, mutate } = useSwr<LeadMeta[]>(
     `/Leads/${leadId}/LeadMetas`
   )
   const columns: Array<Column<LeadMeta>> = [
@@ -82,6 +83,8 @@ const Metas: React.FC<Props> = ({ leadId }) => {
     },
     [refreshing]
   )
+
+  if (error) return <Error />
 
   return (
     <MaterialTable

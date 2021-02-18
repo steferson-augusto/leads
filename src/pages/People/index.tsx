@@ -5,10 +5,13 @@ import { useSwr } from '../../hooks/useSwr'
 import { Person } from '../../models/Person'
 import localization from '../../utils/tableLocalization'
 import { Container } from './styles'
+import Error from '../../components/Error'
 
 const People: React.FC = () => {
-  const { data, loading } = useSwr<Person[]>('/People')
+  const { data, loading, error } = useSwr<Person[]>('/People')
   const columns: Array<Column<Person>> = [{ title: 'Nome', field: 'name' }]
+
+  if (error) return <Error />
 
   return (
     <Container>

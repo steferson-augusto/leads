@@ -5,15 +5,16 @@ import produce, { setAutoFreeze } from 'immer'
 import { mutate as mutateGlobal } from 'swr'
 
 import { useSwr } from '../../hooks/useSwr'
+import api from '../../services/api'
 import { Lead } from '../../models/Lead'
 import localization from '../../utils/tableLocalization'
 import { Container } from './styles'
-import api from '../../services/api'
+import Error from '../../components/Error'
 
 const Leads: React.FC = () => {
   setAutoFreeze(false)
   const history = useHistory()
-  const { data, loading, mutate } = useSwr<Lead[]>('/Leads')
+  const { data, loading, error, mutate } = useSwr<Lead[]>('/Leads')
   const [refreshing, setRefreshing] = useState(false)
   const columns: Array<Column<Lead>> = [
     { title: 'Nome', field: 'name' },
@@ -59,6 +60,8 @@ const Leads: React.FC = () => {
       console.error(error)
     }
   }, [])
+
+  if (error) return <Error />
 
   return (
     <Container>

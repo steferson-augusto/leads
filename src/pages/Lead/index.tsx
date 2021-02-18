@@ -16,14 +16,15 @@ import {
   Tabs,
   Tab
 } from '@material-ui/core'
+import { Skeleton } from '@material-ui/lab'
 
 import { useSwr } from '../../hooks/useSwr'
+import api from '../../services/api'
 import { Lead as LeadInterface } from '../../models/Lead'
 import { Container, Form, Body, LoadContainer } from './styles'
 import Metas from '../../components/Metas'
 import TabPanel from '../../components/TapPanel'
-import api from '../../services/api'
-import { Skeleton } from '@material-ui/lab'
+import Error from '../../components/Error'
 
 interface ParamsProps {
   id: string
@@ -31,7 +32,7 @@ interface ParamsProps {
 
 const Lead: React.FC = () => {
   const { id } = useParams<ParamsProps>()
-  const { data, loading, mutate } = useSwr<LeadInterface>(`/Leads/${id}`)
+  const { data, loading, mutate, error } = useSwr<LeadInterface>(`/Leads/${id}`)
   const [value, setValue] = React.useState(0)
 
   const handleChange = (_event: any, newValue: number) => {
@@ -68,6 +69,8 @@ const Lead: React.FC = () => {
         <Skeleton variant="rect" width="100%" height={228} />
       </LoadContainer>
     )
+
+  if (error) return <Error />
 
   return (
     <Body>
