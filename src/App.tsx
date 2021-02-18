@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core/styles'
 
 import Routes from './routes'
-import { AuthProvider } from './contexts/auth'
 import GlobalStyles from './styles/global'
 import light, { muiLight } from './styles/themes/light'
 import dark, { muiDark } from './styles/themes/dark'
@@ -43,9 +42,7 @@ const App: React.FC = () => {
     <MUIThemeProvider theme={muiTheme}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <AuthProvider>
-          <Routes toogleTheme={toogleTheme} />
-        </AuthProvider>
+        <Routes toogleTheme={toogleTheme} />
       </ThemeProvider>
     </MUIThemeProvider>
   )
